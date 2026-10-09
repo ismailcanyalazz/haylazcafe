@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Haylaz Cafe | Nallıhan'ın En İyi Cafesi – Kumpir, Waffle, Makarna, Kahvaltı</title>
+<meta name="description" content="Haylaz Cafe, Nallıhan'ın en gözde lezzet durağı. Dolu dolu kumpir, bol soslu waffle, kremalı makarnalar ve enfes serpme kahvaltı. Şimdi keşfet!">
+<meta name="theme-color" content="#0a0805">
+<meta property="og:title" content="Haylaz Cafe – Nallıhan'ın En İyi Cafesi">
+<meta property="og:description" content="Kumpir, Waffle, Makarna ve Serpme Kahvaltı ile Nallıhan'ın kalbinde lezzetin adresi.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Haylaz Cafe","description":"Nallıhan'ın en iyi cafesi","servesCuisine":["Kumpir","Waffle","Makarna","Kahvaltı"],"priceRange":"₺₺","address":{"@type":"PostalAddress","streetAddress":"Nasuhpaşa, Cami Sk. No:5","postalCode":"06920","addressLocality":"Nallıhan","addressRegion":"Ankara","addressCountry":"TR"},"openingHours":"Mo-Su 08:00-00:00"}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23e8a020'/%3E%3Ctext y='.9em' font-size='58' x='14' fill='%231a0800'%3E☕%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ─── DESIGN TOKENS ──────────────────────────────── */
+:root {
+  --bg:      #0a0805;
+  --bg2:     #110e0a;
+  --bg3:     #181310;
+  --card:    #1c1712;
+  --card2:   #231e18;
+  --border:  rgba(255,200,100,.08);
+  --border2: rgba(255,200,100,.18);
+  --gold:    #e8a020;
+  --gold2:   #ffcc5c;
+  --ember:   #c8440a;
+  --cream:   #fdf2e0;
+  --ink:     #f5ead8;
+  --muted:   #8a7a65;
+  --muted2:  #c4ad90;
+  --red:     #d94f2e;
+  --shadow:  0 20px 60px rgba(0,0,0,.7);
+  --glow:    0 0 40px rgba(232,160,32,.25);
+  --r:       18px;
+  --r2:      28px;
+  --trans:   .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── RESET ──────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px;font-size:16px}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+ul{list-style:none}
+
+/* ─── SCROLLBAR ──────────────────────────────────── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0a0805}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* ─── UTILS ──────────────────────────────────────── */
+.wrap{max-width:1160px;margin:auto;padding:0 24px}
+.serif{font-family:'Playfair Display',Georgia,serif}
+.gold{color:var(--gold)}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border2);color:var(--gold2);border-radius:999px;padding:6px 16px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;background:rgba(232,160,32,.08)}
+
+/* ─── NOISE OVERLAY ──────────────────────────────── */
+body::before{content:'';position:fixed;inset:0;opacity:.025;pointer-events:none;z-index:1000;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ─── NAVBAR ─────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0;transition:var(--trans)}
+nav.scrolled{background:rgba(10,8,5,.92);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo-wrap{display:flex;flex-direction:column;gap:0}
+.logo-main{font-family:'Baloo 2',sans-serif;font-size:26px;font-weight:800;color:var(--gold);letter-spacing:.02em;line-height:1}
+.logo-sub{font-size:9px;letter-spacing:.5em;color:var(--muted2);text-transform:uppercase;margin-top:2px}
+.logo-crown{margin-right:6px}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;color:var(--muted2);letter-spacing:.04em;transition:var(--trans);position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:var(--trans)}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{display:flex;align-items:center;gap:12px}
+#burger{display:none;background:none;border:1px solid var(--border2);color:var(--gold);width:40px;height:40px;border-radius:10px;font-size:18px;align-items:center;justify-content:center}
+
+/* ─── BUTTONS ─────────────────────────────────────── */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a0800;font-weight:600;font-size:14px;padding:14px 28px;border-radius:999px;transition:var(--trans);box-shadow:0 8px 32px rgba(232,160,32,.3);letter-spacing:.04em;border:0;white-space:nowrap}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(232,160,32,.45)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--cream);font-weight:500;font-size:14px;padding:13px 26px;border-radius:999px;border:1px solid rgba(255,255,255,.2);transition:var(--trans);letter-spacing:.04em;white-space:nowrap}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+/* ─── HERO ────────────────────────────────────────── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{object-position:center 30%}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right, rgba(10,8,5,.96) 45%, rgba(10,8,5,.5) 75%, rgba(10,8,5,.2) 100%), linear-gradient(to top, rgba(10,8,5,.8) 0%, transparent 40%)}
+.hero-content{position:relative;z-index:1;padding:120px 0 80px;max-width:620px}
+.hero-award{display:inline-flex;align-items:center;gap:10px;background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.3);border-radius:999px;padding:8px 18px;margin-bottom:28px;font-size:13px;color:var(--gold2)}
+.hero-award span{font-size:18px}
+.hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(44px,6vw,78px);font-weight:900;line-height:1.05;margin-bottom:20px;color:var(--cream)}
+.hero h1 em{font-style:italic;color:var(--gold);display:block}
+.hero-desc{font-size:18px;color:var(--muted2);line-height:1.7;margin-bottom:36px;max-width:480px;font-weight:300}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;color:var(--gold);line-height:1}
+.stat-lbl{font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:11px;letter-spacing:.2em;text-transform:uppercase;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ─── SECTION COMMONS ────────────────────────────── */
+section{padding:100px 0}
+.sec-head{text-align:center;margin-bottom:60px}
+.sec-head .tag{margin-bottom:16px}
+.sec-head h2{font-family:'Playfair Display',serif;font-size:clamp(36px,5vw,56px);font-weight:900;color:var(--cream);line-height:1.1;margin-bottom:14px}
+.sec-head p{color:var(--muted2);font-size:17px;max-width:520px;margin:auto;line-height:1.6}
+
+/* ─── FEATURES / LEZZETLER ───────────────────────── */
+#lezzetler{background:var(--bg2)}
+.feat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:var(--trans);position:relative}
+.feat-card:hover{transform:translateY(-8px);border-color:var(--border2);box-shadow:var(--glow)}
+.feat-card-img{height:200px;position:relative;overflow:hidden}
+.feat-card-img img{transition:var(--trans) transform}
+.feat-card:hover .feat-card-img img{transform:scale(1.06)}
+.feat-card-emoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:72px;background:linear-gradient(135deg,#2a1e0f,#1a1208)}
+.feat-card-body{padding:22px}
+.feat-card-body h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--cream);margin-bottom:6px}
+.feat-card-body p{color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:12px}
+.feat-card-price{font-size:13px;color:var(--muted2)}.feat-card-price b{color:var(--gold);font-size:18px}
+.feat-badge{position:absolute;top:14px;right:14px;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a0800;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.06em}
+
+/* ─── MENU ────────────────────────────────────────── */
+#menu{background:var(--bg)}
+.menu-tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.menu-tabs::-webkit-scrollbar{display:none}
+.menu-tab{background:var(--card);color:var(--muted2);border:1px solid var(--border);border-radius:999px;padding:10px 22px;font-size:14px;font-weight:500;transition:var(--trans);white-space:nowrap}
+.menu-tab:hover{border-color:var(--border2);color:var(--gold2)}
+.menu-tab.on{background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a0800;border-color:transparent;font-weight:600}
+.menu-panel{display:grid;grid-template-columns:1fr 1.4fr;gap:32px;align-items:start}
+.menu-visual{border-radius:var(--r2);overflow:hidden;position:relative;background:var(--card);aspect-ratio:4/5}
+.menu-visual-emoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:120px;background:linear-gradient(135deg,#2a1e0f,#1a1208)}
+.menu-visual img{border-radius:var(--r2)}
+.menu-info h3{font-family:'Playfair Display',serif;font-size:38px;color:var(--gold);margin-bottom:6px;font-weight:700}
+.menu-info .menu-note{color:var(--muted);font-size:13px;margin-bottom:24px;line-height:1.5}
+.menu-items{display:flex;flex-direction:column;gap:0}
+.menu-item{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.menu-item:last-child{border-bottom:none}
+.menu-item-name{flex:1;font-size:15px;color:var(--ink);font-weight:400}
+.menu-item-dots{flex:1;border-bottom:1px dotted rgba(255,255,255,.1);transform:translateY(-4px)}
+.menu-item-price{color:var(--gold);font-weight:600;font-size:16px;white-space:nowrap;font-family:'Playfair Display',serif}
+
+/* ─── SERPME ──────────────────────────────────────── */
+#serpme{background:var(--bg2);position:relative;overflow:hidden}
+#serpme::before{content:'';position:absolute;right:-200px;top:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(232,160,32,.08),transparent 70%)}
+.serp-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.serp-img-wrap{border-radius:var(--r2);overflow:hidden;position:relative;aspect-ratio:4/5;box-shadow:var(--shadow)}
+.serp-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,5,.6) 0%,transparent 40%)}
+.serp-badge-over{position:absolute;bottom:24px;left:24px;z-index:2;background:rgba(10,8,5,.85);backdrop-filter:blur(12px);border:1px solid var(--border2);border-radius:16px;padding:16px 20px}
+.serp-badge-over .price-big{font-family:'Playfair Display',serif;font-size:48px;color:var(--gold);font-weight:700;line-height:1}
+.serp-badge-over .price-sub{font-size:13px;color:var(--muted2)}
+.serp-content .tag{margin-bottom:18px}
+.serp-content h2{font-family:'Playfair Display',serif;font-size:clamp(34px,4.5vw,52px);font-weight:900;color:var(--cream);line-height:1.1;margin-bottom:16px}
+.serp-content p{color:var(--muted2);font-size:16px;line-height:1.7;margin-bottom:28px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.chip{background:rgba(232,160,32,.1);color:var(--gold2);padding:6px 14px;border-radius:999px;font-size:13px;border:1px solid rgba(232,160,32,.2);transition:var(--trans)}
+.chip:hover{background:rgba(232,160,32,.2)}
+
+/* ─── GALERI ──────────────────────────────────────── */
+#galeri{background:var(--bg)}
+.gal-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:220px;gap:16px}
+.gal-item{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer}
+.gal-item:nth-child(1){grid-column:span 5;grid-row:span 2}
+.gal-item:nth-child(2){grid-column:span 4}
+.gal-item:nth-child(3){grid-column:span 3}
+.gal-item:nth-child(4){grid-column:span 3}
+.gal-item:nth-child(5){grid-column:span 4}
+.gal-item:nth-child(6){grid-column:span 5;grid-row:span 1}
+.gal-emoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:60px;background:var(--card2)}
+.gal-item::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5),transparent);opacity:0;transition:var(--trans)}
+.gal-item:hover::after{opacity:1}
+.gal-item img{transition:var(--trans)}
+.gal-item:hover img{transform:scale(1.05)}
+
+/* ─── ILETISIM ────────────────────────────────────── */
+#iletisim{background:var(--bg2)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:0}
+.contact-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:36px;transition:var(--trans)}
+.contact-card:hover{border-color:var(--border2)}
+.contact-card h3{font-family:'Playfair Display',serif;font-size:26px;color:var(--cream);margin-bottom:24px}
+.contact-row{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}
+.contact-icon{width:44px;height:44px;border-radius:12px;background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.contact-detail strong{display:block;font-size:12px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.contact-detail span{color:var(--ink);font-size:15px}
+.map-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;min-height:320px;display:flex;align-items:center;justify-content:center;position:relative}
+.map-placeholder{text-align:center;color:var(--muted);padding:40px}
+.map-placeholder .map-pin{font-size:48px;margin-bottom:16px;display:block}
+.map-placeholder p{font-size:15px;line-height:1.6;max-width:280px;margin:auto}
+.map-placeholder small{font-size:12px;color:var(--muted);display:block;margin-top:12px}
+.social-row{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.social-btn{display:flex;align-items:center;gap:8px;border-radius:14px;padding:11px 18px;font-size:13px;font-weight:600;transition:var(--trans);border:0;cursor:pointer}
+.social-btn.ig{background:linear-gradient(135deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);color:#fff;}
+.social-btn.ig:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(220,39,67,.4)}
+.social-btn.wa{background:#25d366;color:#04210f}
+.social-btn.wa:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.4)}
+
+/* ─── FOOTER ──────────────────────────────────────── */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 0 40px}
+.footer-inner{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand .logo-main{font-size:24px;margin-bottom:8px}
+.footer-brand p{color:var(--muted);font-size:13px;line-height:1.7;max-width:260px;margin-top:12px}
+.footer-col h4{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;font-weight:600}
+.footer-col ul{display:flex;flex-direction:column;gap:10px}
+.footer-col ul a{color:var(--muted2);font-size:14px;transition:var(--trans)}
+.footer-col ul a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{color:var(--muted);font-size:13px}
+.footer-stars{color:var(--gold);font-size:16px;letter-spacing:2px}
+
+/* ─── FLOATING SOCIAL BUTTONS ───────────────────── */
+.fab-group{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:800;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+.fab-btn{display:flex;align-items:center;gap:10px;padding:13px 20px;border-radius:999px;font-weight:600;font-size:14px;transition:var(--trans);box-shadow:0 8px 28px rgba(0,0,0,.35);white-space:nowrap;border:0;cursor:pointer;font-family:inherit;text-decoration:none}
+.fab-wa{background:#25d366;color:#04210f}
+.fab-wa:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 40px rgba(37,211,102,.55)}
+.fab-ig{background:linear-gradient(135deg,#f09433,#e6683c 30%,#dc2743 60%,#bc1888);color:#fff}
+.fab-ig:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 40px rgba(220,39,67,.45)}
+.fab-icon{font-size:20px;line-height:1}
+.fab-label{display:block}
+/* SVG logo inline */
+.logo-svg{width:38px;height:38px;flex-shrink:0}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-text{display:flex;flex-direction:column}
+.logo-main{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:800;color:var(--gold);letter-spacing:.01em;line-height:1}
+.logo-sub{font-size:8.5px;letter-spacing:.45em;color:var(--muted2);text-transform:uppercase;margin-top:1px}
+
+/* ─── DIVIDER ─────────────────────────────────────── */
+.divider{display:flex;align-items:center;gap:20px;margin:0 0 60px;color:var(--muted);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ─── REVEAL ──────────────────────────────────────── */
+.rv{opacity:0;transform:translateY(30px);transition:.8s cubic-bezier(.4,0,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv-l{opacity:0;transform:translateX(-30px);transition:.8s cubic-bezier(.4,0,.2,1)}
+.rv-l.in{opacity:1;transform:none}
+.rv-r{opacity:0;transform:translateX(30px);transition:.8s cubic-bezier(.4,0,.2,1)}
+.rv-r.in{opacity:1;transform:none}
+.rv-s{opacity:0;transform:scale(.95);transition:.8s cubic-bezier(.4,0,.2,1)}
+.rv-s.in{opacity:1;transform:none}
+
+/* ─── MOBILE ──────────────────────────────────────── */
+@media(max-width:900px){
+  #burger{display:flex}
+  .nav-links,.nav-cta .btn-outline{display:none}
+  .nav-links.open{display:flex;position:fixed;top:76px;left:0;right:0;bottom:0;background:rgba(10,8,5,.98);backdrop-filter:blur(20px);flex-direction:column;padding:40px 24px;gap:24px;align-items:flex-start;font-size:22px}
+  .nav-links.open a{font-size:20px}
+  .feat-grid{grid-template-columns:1fr 1fr}
+  .menu-panel{grid-template-columns:1fr}
+  .serp-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .gal-grid{grid-template-columns:1fr 1fr;grid-auto-rows:160px}
+  .gal-item:nth-child(1){grid-column:span 2;grid-row:span 1}
+  .gal-item:nth-child(n){grid-column:span 1;grid-row:span 1}
+  .footer-inner{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .hero h1{font-size:clamp(40px,8vw,64px)}
+  section{padding:72px 0}
+  .wa-text{display:none}
+  .wa-fab{padding:14px}
+}
+@media(max-width:600px){
+  .feat-grid{grid-template-columns:1fr}
+  .hero-stats{gap:20px}
+  .stat-num{font-size:26px}
+  .gal-grid{grid-template-columns:1fr}
+  .gal-item:nth-child(n){grid-column:span 1!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="logo-wrap" id="logo">
+      <svg class="logo-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="38" fill="url(#lg1)" opacity=".95"/>
+        <path d="M24 52 Q24 28 40 26 Q56 28 56 52" stroke="#1a0800" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="40" cy="53" rx="16" ry="5" fill="#1a0800" opacity=".9"/>
+        <rect x="30" y="53" width="20" height="3" rx="1.5" fill="#1a0800"/>
+        <rect x="33" y="56" width="14" height="4" rx="2" fill="#1a0800"/>
+        <path d="M56 34 Q62 34 62 40 Q62 44 57 44" stroke="#1a0800" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="40" cy="20" r="3" fill="#fff8" opacity=".5"/>
+        <defs>
+          <linearGradient id="lg1" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#ffcc5c"/>
+            <stop offset="1" stop-color="#c8440a"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="logo-text">
+        <span class="logo-main">HAYLAZ CAFE</span>
+        <span class="logo-sub">Nallıhan'ın En İyi Cafesi</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="nl" style="padding-left:0">
+      <li><a href="#lezzetler">Lezzetler</a></li>
+      <li><a href="#menu">Menü</a></li>
+      <li><a href="#serpme">Serpme Kahvaltı</a></li>
+      <li><a href="#galeri">Galeri</a></li>
+      <li><a href="#iletisim">İletişim</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a class="btn-outline" href="#iletisim">Rezervasyon</a>
+      <button id="burger" aria-label="Menü">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\cafe_hero_1791574921664.jpg" alt="Haylaz Cafe İç Mekan">
+  </div>
+  <div class="wrap">
+    <div class="hero-content rv-l">
+      <div class="hero-award">
+        <span>⭐</span>
+        Nallıhan'ın #1 Cafesi · Ankara'nın Gizli Lezzet Durağı
+      </div>
+      <h1>
+        Lezzetin En <em>Keyifli</em> Hali.
+      </h1>
+      <p class="hero-desc">Dolu dolu kumpirler, bol soslu waffle'lar, sıcacık makarnalar ve sofrayı dolduran serpme kahvaltı. Her lokmada bir hikaye.</p>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#menu">🍽️ Menüyü İncele</a>
+        <a class="btn-outline" href="#iletisim">📍 Yol Tarifi Al</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">5+</span>
+          <span class="stat-lbl">Yıldır Hizmet</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">7</span>
+          <span class="stat-lbl">Menü Kategorisi</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">⭐5.0</span>
+          <span class="stat-lbl">Google Puanı</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Keşfet</span>
+    <svg width="16" height="24" viewBox="0 0 16 24" fill="none"><rect x="6.5" y="0" width="3" height="24" rx="1.5" fill="rgba(255,200,100,.3)"/><circle cx="8" cy="5" r="2.5" fill="#e8a020"><animateTransform attributeName="transform" type="translate" values="0 0;0 14;0 0" dur="2s" repeatCount="indefinite"/></circle></svg>
+  </div>
+</section>
+
+<!-- ═══ LEZZETLER ════════════════════════════════════ -->
+<section id="lezzetler">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="tag">✨ Öne Çıkan Lezzetler</span>
+      <h2>Nallıhan'ın <span class="gold">Favorileri</span></h2>
+      <p>Her damak zevkine hitap eden, özenle hazırlanmış lezzetlerimizi keşfedin</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card rv" data-go="kumpir" style="transition-delay:.05s">
+        <div class="feat-card-img">
+          <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\kumpir_dish_1791574931361.jpg" alt="Kumpir">
+        </div>
+        <span class="feat-badge">⭐ EN POPÜLER</span>
+        <div class="feat-card-body">
+          <h3>Kumpir</h3>
+          <p>Devasa patatesin içinde istediğin her şey. Kaşar, mısır, sucuk ve daha fazlası.</p>
+          <div class="feat-card-price">Başlangıç <b>180 ₺</b></div>
+        </div>
+      </div>
+      <div class="feat-card rv" data-go="waffle" style="transition-delay:.1s">
+        <div class="feat-card-img">
+          <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\waffle_dish_1791574943891.jpg" alt="Waffle">
+        </div>
+        <div class="feat-card-body">
+          <h3>Waffle</h3>
+          <p>Çıtır çıtır dışı, yumuşacık içi. Çikolata, meyve ve krema ile taçlandırılmış.</p>
+          <div class="feat-card-price">Başlangıç <b>150 ₺</b></div>
+        </div>
+      </div>
+      <div class="feat-card rv" data-go="makarna" style="transition-delay:.15s">
+        <div class="feat-card-img">
+          <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\pasta_dish_1791574978401.jpg" alt="Makarna">
+        </div>
+        <div class="feat-card-body">
+          <h3>Makarna</h3>
+          <p>11 farklı sos seçeneği. Kremalı mantardan pesto'ya, hepsini seveceksin.</p>
+          <div class="feat-card-price">Başlangıç <b>150 ₺</b></div>
+        </div>
+      </div>
+      <div class="feat-card rv" data-go="kahvalti" style="transition-delay:.2s">
+        <div class="feat-card-img">
+          <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\breakfast_spread_1791574967669.jpg" alt="Kahvaltı">
+        </div>
+        <div class="feat-card-body">
+          <h3>Kahvaltı</h3>
+          <p>Günün en güzel başlangıcı. Tost çeşitleri, menemen, yumurta ve daha fazlası.</p>
+          <div class="feat-card-price">Başlangıç <b>75 ₺</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MENU ════════════════════════════════════════ -->
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="tag">🍽️ Güncel Fiyatlar</span>
+      <h2>Tam <span class="gold">Menü</span></h2>
+      <p>Tüm kategorilerimizi keşfedin. Her damak zevkine bir seçenek var.</p>
+    </div>
+    <div class="menu-tabs" id="tabs"></div>
+    <div class="menu-panel card rv">
+      <div class="menu-visual">
+        <div class="menu-visual-emoji" id="mimg-emoji">🥔</div>
+        <img id="mimg" src="" alt="" style="display:none;border-radius:var(--r2)">
+      </div>
+      <div class="menu-info">
+        <h3 id="mt"></h3>
+        <p class="menu-note" id="mn"></p>
+        <ul class="menu-items" id="ml"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERPME ════════════════════════════════════════ -->
+<section id="serpme">
+  <div class="wrap">
+    <div class="serp-grid">
+      <div class="serp-img-wrap rv-l">
+        <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\breakfast_spread_1791574967669.jpg" alt="Serpme Kahvaltı">
+        <div class="serp-badge-over">
+          <div class="price-big">250₺</div>
+          <div class="price-sub">kişi başı · min. 2 kişi</div>
+        </div>
+      </div>
+      <div class="serp-content rv-r">
+        <span class="tag">🍳 Hafta Sonu Keyfi</span>
+        <h2>Serpme <span class="gold">Kahvaltı</span></h2>
+        <p>Masanız baştan sona çeşitle dolsun. En az 2 kişilik, zengin içerikli ve doyurucu serpme kahvaltımızla güne en güzel şekilde başlayın.</p>
+        <div class="chips">
+          <span class="chip">🫒 Siyah & Yeşil Zeytin</span>
+          <span class="chip">🍯 Bal · Kaymak · Tereyağı</span>
+          <span class="chip">🍫 Çikolata Kreması</span>
+          <span class="chip">🧀 Beyaz & Kaşar Peynir</span>
+          <span class="chip">🧀 Lor · Tel · Burgu Peynir</span>
+          <span class="chip">🥐 Sigara Böreği</span>
+          <span class="chip">🍟 Patates Kızartması</span>
+          <span class="chip">🍳 Menemen</span>
+          <span class="chip">🌭 Sucuklu Yumurta</span>
+          <span class="chip">🧅 Soğan Halkası</span>
+          <span class="chip">🥗 Mevsim Yeşillik & Meyve</span>
+        </div>
+        <a class="btn-primary" href="#iletisim">📞 Rezervasyon Yaptır</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALERI ════════════════════════════════════════ -->
+<section id="galeri">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="tag">📸 Galeri</span>
+      <h2>Lezzet <span class="gold">Galerimiz</span></h2>
+      <p>Her tabak, bir sanat eseri gibi hazırlanır</p>
+    </div>
+    <div class="gal-grid rv-s">
+      <div class="gal-item">
+        <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\cafe_hero_1791574921664.jpg" alt="Haylaz Cafe">
+      </div>
+      <div class="gal-item">
+        <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\kumpir_dish_1791574931361.jpg" alt="Kumpir">
+      </div>
+      <div class="gal-item">
+        <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\pasta_dish_1791574978401.jpg" alt="Makarna">
+      </div>
+      <div class="gal-item">
+        <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\waffle_dish_1791574943891.jpg" alt="Waffle">
+      </div>
+      <div class="gal-item">
+        <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\breakfast_spread_1791574967669.jpg" alt="Serpme Kahvaltı">
+      </div>
+      <div class="gal-item">
+        <img src="C:\Users\msipc\.gemini\antigravity\brain\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\cafe_interior_1791574989185.jpg" alt="Cafe İç Mekan">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ İLETİŞİM ═════════════════════════════════════ -->
+<section id="iletisim">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="tag">📍 Nallıhan, Ankara</span>
+      <h2>Bize <span class="gold">Ulaşın</span></h2>
+      <p>Sizi ağırlamaktan mutluluk duyarız. Rezervasyon ve bilgi için WhatsApp'tan yazabilirsiniz.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-card rv-l">
+        <h3>İletişim Bilgileri</h3>
+        <div class="contact-row">
+          <div class="contact-icon">📍</div>
+          <div class="contact-detail">
+            <strong>Adres</strong>
+            <span>Nasuhpaşa, Cami Sk. No:5, 06920 Nallıhan/Ankara</span>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📞</div>
+          <div class="contact-detail">
+            <strong>Telefon</strong>
+            <span><a href="tel:+905000000000" style="color:var(--gold)">0 5XX XXX XX XX</a></span>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">🕘</div>
+          <div class="contact-detail">
+            <strong>Çalışma Saatleri</strong>
+            <span>Haftanın Her Günü &nbsp;·&nbsp; 08:00 – 00:00</span>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">📸</div>
+          <div class="contact-detail">
+            <strong>Instagram</strong>
+            <span><a href="https://instagram.com/cafehaylaz" target="_blank" style="color:var(--gold)">@cafehaylaz</a></span>
+          </div>
+        </div>
+        <div class="social-row">
+          <a href="https://wa.me/905000000000" class="social-btn wa">
+            <svg class="fab-icon" viewBox="0 0 24 24" width="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+          <a href="https://instagram.com/cafehaylaz" target="_blank" class="social-btn ig">
+            <svg class="fab-icon" viewBox="0 0 24 24" width="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            @cafehaylaz
+          </a>
+        </div>
+      </div>
+      <div class="map-card rv-r" style="padding:0;overflow:hidden;min-height:380px">
+        <iframe
+          src="https://maps.google.com/maps?q=Nasuh+Pa%C5%9Fa%2C+Cami+Sk.+No%3A5%2C+06920+Nall%C4%B1han%2FAnkara&output=embed&hl=tr&z=16"
+          width="100%"
+          height="380"
+          style="border:0;display:block;filter:grayscale(30%) contrast(1.1) brightness(0.85)"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Haylaz Cafe Konum"
+        ></iframe>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:16px 20px;background:linear-gradient(to top,rgba(10,8,5,.95),transparent);display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:600;color:var(--cream);font-size:14px">Haylaz Cafe</div>
+            <div style="font-size:12px;color:var(--muted2)">Cami Sk. No:5, Nallıhan</div>
+          </div>
+          <a href="https://maps.google.com/maps?q=Nasuhpaşa,+Cami+Sk.+No:5,+06920+Nallıhan/Ankara" target="_blank" class="btn-primary" style="font-size:12px;padding:9px 16px">
+            🗺️ Yol Tarifi
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+          <svg width="34" height="34" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" fill="url(#fl1)"/><path d="M24 52 Q24 28 40 26 Q56 28 56 52" stroke="#1a0800" stroke-width="3.5" fill="none" stroke-linecap="round"/><ellipse cx="40" cy="53" rx="16" ry="5" fill="#1a0800" opacity=".9"/><rect x="30" y="53" width="20" height="3" rx="1.5" fill="#1a0800"/><rect x="33" y="56" width="14" height="4" rx="2" fill="#1a0800"/><path d="M56 34 Q62 34 62 40 Q62 44 57 44" stroke="#1a0800" stroke-width="3" fill="none" stroke-linecap="round"/><defs><linearGradient id="fl1" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#ffcc5c"/><stop offset="1" stop-color="#c8440a"/></linearGradient></defs></svg>
+          <div class="logo-main">HAYLAZ CAFE</div>
+        </div>
+        <div class="logo-sub" style="font-size:9px;letter-spacing:.4em;color:var(--muted)">NALLIHAN'IN EN İYİ CAFESİ</div>
+        <p>Nallıhan'ın kalbinde, her lokmada bir sıcaklık. Lezzetin en keyifli hali sizlerle.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Menü</h4>
+        <ul>
+          <li><a href="#menu">Kumpir Çeşitleri</a></li>
+          <li><a href="#menu">Waffle Çeşitleri</a></li>
+          <li><a href="#menu">Makarna Çeşitleri</a></li>
+          <li><a href="#menu">Kahvaltı Çeşitleri</a></li>
+          <li><a href="#serpme">Serpme Kahvaltı</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Bilgi</h4>
+        <ul>
+          <li><a href="#lezzetler">Lezzetlerimiz</a></li>
+          <li><a href="#galeri">Galeri</a></li>
+          <li><a href="#iletisim">Adres & İletişim</a></li>
+          <li><a href="https://wa.me/905000000000">WhatsApp</a></li>
+          <li><a href="https://instagram.com/cafehaylaz" target="_blank">Instagram @cafehaylaz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Haylaz Cafe · Tüm hakları saklıdır · Nallıhan, Ankara</p>
+      <div>
+        <div class="footer-stars">★★★★★</div>
+        <p style="font-size:11px;margin-top:4px;text-align:right">Google'da 5.0 puan</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Social FAB Group -->
+<div class="fab-group">
+  <a class="fab-btn fab-ig" href="https://instagram.com/cafehaylaz" target="_blank" aria-label="Instagram">
+    <svg class="fab-icon" viewBox="0 0 24 24" width="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    <span class="fab-label">@cafehaylaz</span>
+  </a>
+  <a class="fab-btn fab-wa" href="https://wa.me/905000000000" aria-label="WhatsApp">
+    <svg class="fab-icon" viewBox="0 0 24 24" width="20" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="fab-label">WhatsApp</span>
+  </a>
+</div>
+
+<script>
+/* ─── MENU DATA ─────────────────────────────────── */
+const M = {
+  kumpir: {
+    n: 'Kumpir', e: '🥔',
+    img: 'C:\\Users\\msipc\\.gemini\\antigravity\\brain\\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\\kumpir_dish_1791574931361.jpg',
+    note: '🧂 Malzemenizi kendiniz seçebilirsiniz. Ekstra malzeme eklenir.',
+    i: [['Kaşarlı Kumpir','180'],['Karışık Kumpir','230'],['Double Karışık Kumpir','280']]
+  },
+  waffle: {
+    n: 'Waffle', e: '🧇',
+    img: 'C:\\Users\\msipc\\.gemini\\antigravity\\brain\\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\\waffle_dish_1791574943891.jpg',
+    note: '🍓 Meyve ve krema seçeneklerimiz mevcuttur.',
+    i: [['Waffle','200'],['Çubukta Waffle','150'],['Bardakta Waffle','150'],['Kova Waffle','200'],['Double Waffle','250']]
+  },
+  makarna: {
+    n: 'Makarnalar', e: '🍝',
+    img: 'C:\\Users\\msipc\\.gemini\\antigravity\\brain\\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\\pasta_dish_1791574978401.jpg',
+    note: '🧀 Tüm makarnalar taze malzeme ile hazırlanır.',
+    i: [['Domates Soslu Makarna','150'],['Mantarlı & Kremalı Makarna','180'],['Mantar Tavuk Penne','220'],['Pesto Makarna','180'],['Çedar Makarna','220'],['Barbekü Makarna','220'],['Köri Makarna','200'],['Dört Peynirli Makarna','220'],['Yoğurtlu & Soslu Makarna','170'],['Spagetti','150'],['Tavuklu & Mantarlı Fettuccine','240']]
+  },
+  kahvalti: {
+    n: 'Kahvaltı', e: '🍳',
+    img: 'C:\\Users\\msipc\\.gemini\\antigravity\\brain\\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\\breakfast_spread_1791574967669.jpg',
+    note: '☕ Çay veya Türk kahvesiyle birlikte tercih edebilirsiniz.',
+    i: [['Kaşarlı Tost','75'],['Sucuklu Tost','100'],['Karışık Tost','100'],['Cheddar Tost','130'],['Acılı Tost','130'],['Kuymak','200'],['Menemen','150'],['Sucuklu Yumurta','150'],['Tereyağlı Yumurta','100'],['Mantarlı Omlet','150']]
+  },
+  aperatif: {
+    n: 'Aperitifler', e: '🧅',
+    note: '🔥 Taze hazırlanır, sıcak servis edilir.',
+    i: [['Sigara Böreği','70'],['Patates Kızartması','120'],['Soğan Halkası','100'],['Peynir Çubuğu','120'],['Sıcak Sepet','180'],['Çıtır Tavuk','180']]
+  },
+  sicak: {
+    n: 'Sıcak İçecekler', e: '☕',
+    note: '🍵 Demlik çay ve Türk kahvesi geleneksel sunumla gelir.',
+    i: [['Çay','15'],['Türk Kahvesi','70'],['Nescafe','60']]
+  },
+  soguk: {
+    n: 'Soğuk İçecekler', e: '🥤',
+    i: [['Fuse Tea','80'],['Kola','80'],['Fanta','80'],['Soda','40'],['Ayran','50'],['Churchill','70'],['Su','20']]
+  }
+};
+
+/* ─── BUILD TABS ─────────────────────────────────── */
+const tabs = document.getElementById('tabs');
+const imgs = {
+  kumpir: 'C:\\Users\\msipc\\.gemini\\antigravity\\brain\\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\\kumpir_dish_1791574931361.jpg',
+  waffle: 'C:\\Users\\msipc\\.gemini\\antigravity\\brain\\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\\waffle_dish_1791574943891.jpg',
+  makarna: 'C:\\Users\\msipc\\.gemini\\antigravity\\brain\\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\\pasta_dish_1791574978401.jpg',
+  kahvalti: 'C:\\Users\\msipc\\.gemini\\antigravity\\brain\\41db9d90-89a0-49f7-8dc7-84fe7ce8587e\\breakfast_spread_1791574967669.jpg',
+};
+
+Object.entries(M).forEach(([k,v]) => {
+  const b = document.createElement('button');
+  b.className = 'menu-tab';
+  b.textContent = v.e + ' ' + v.n;
+  b.dataset.k = k;
+  b.onclick = () => show(k);
+  tabs.append(b);
+});
+
+function show(k) {
+  const v = M[k];
+  document.querySelectorAll('.menu-tab').forEach(b => b.classList.toggle('on', b.dataset.k === k));
+  document.getElementById('mt').textContent = v.n;
+  document.getElementById('mn').textContent = v.note || '';
+  const emojiEl = document.getElementById('mimg-emoji');
+  const imgEl = document.getElementById('mimg');
+  if (v.img) {
+    imgEl.src = v.img;
+    imgEl.alt = v.n;
+    imgEl.style.display = 'block';
+    emojiEl.style.display = 'none';
+  } else {
+    imgEl.style.display = 'none';
+    emojiEl.textContent = v.e;
+    emojiEl.style.display = 'flex';
+  }
+  document.getElementById('ml').innerHTML = v.i.map(x =>
+    `<li class="menu-item"><span class="menu-item-name">${x[0]}</span><span class="menu-item-dots"></span><span class="menu-item-price">${x[1]} ₺</span></li>`
+  ).join('');
+}
+show('kumpir');
+
+/* ─── FEAT CARDS LINK ────────────────────────────── */
+document.querySelectorAll('[data-go]').forEach(c => c.onclick = () => {
+  show(c.dataset.go);
+  document.getElementById('menu').scrollIntoView({behavior:'smooth'});
+});
+
+/* ─── NAV SCROLL ─────────────────────────────────── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, {passive:true});
+
+/* ─── BURGER ─────────────────────────────────────── */
+const burger = document.getElementById('burger');
+const nl = document.getElementById('nl');
+burger.onclick = () => nl.classList.toggle('open');
+nl.querySelectorAll('a').forEach(a => a.onclick = () => nl.classList.remove('open'));
+
+/* ─── INTERSECTION OBSERVER ──────────────────────── */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), {threshold:.1, rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s').forEach(el => io.observe(el));
+
+/* ─── STAGGER FEAT CARDS ─────────────────────────── */
+document.querySelectorAll('.feat-card').forEach((c,i) => c.style.transitionDelay = (i*.08)+'s');
+</script>
+</body>
+</html>
