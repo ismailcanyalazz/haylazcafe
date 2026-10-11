@@ -57,7 +57,9 @@ export const site: SiteConfig = {
    * Örn. "https://haylazcafe.com". Canonical adres, sitemap ve paylaşım
    * kartları bunu kullanır. Doldurulmazsa tarayıcıdaki adres kullanılır.
    */
-  url: "", // TODO: Vercel yayına alındıktan sonra tam adresi yazın, ör. "https://haylazcafe.vercel.app"
+  // Kendi alan adınızı (ör. haylazcafe.com) bağladığınızda burayı değiştirin;
+  // canonical adres, sitemap.xml ve paylaşım kartları bunu kullanır.
+  url: "https://haylazcafe.vercel.app",
 
   description:
     "Nallıhan'ın lezzet durağı Haylaz Cafe: dolu dolu kumpir, bol soslu waffle, kremalı makarnalar, serpme kahvaltı ve taze kahve.",
