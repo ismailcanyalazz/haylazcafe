@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /kitchen
+Disallow: /sign-in
+Disallow: /sign-up
+
+# Sitemap satırı, derleme sırasında src/data/site.ts içindeki "url" alanından
+# üretilir (bkz. vite.config.ts > seoPlugin). Bu dosya geliştirme sunucusunda
+# kullanılan yedek sürümdür.

@@ -1,0 +1,756 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: Haylaz Cafe public menu, orders, pricing administration, and kitchen workflow API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: menu
+    description: Public customer menu and ordering
+  - name: pricing-admin
+    description: Clerk-protected product and option pricing administration
+  - name: orders-admin
+    description: Clerk-protected order and kitchen operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /menu:
+    get:
+      operationId: getPublicMenu
+      tags: [menu]
+      summary: Get the current public menu
+      responses:
+        "200":
+          description: Menu grouped by product category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PublicMenuResponse"
+  /orders:
+    post:
+      operationId: createOrder
+      tags: [menu]
+      summary: Create an order using server-verified prices
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderSubmission"
+      responses:
+        "200":
+          description: Previously accepted order returned after an idempotent retry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderReceipt"
+        "201":
+          description: Order accepted with an immutable price snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderReceipt"
+        "400":
+          description: Invalid order or unpriced item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: Menu price changed while the order was being submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/access:
+    get:
+      operationId: getAdminAccess
+      tags: [pricing-admin]
+      summary: Check whether the signed-in Clerk user is an authorized cafe administrator
+      responses:
+        "200":
+          description: Authenticated user's cafe-admin access
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminAccessResponse"
+        "401":
+          description: Sign-in required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/pricing:
+    get:
+      operationId: listAdminPricing
+      tags: [pricing-admin]
+      summary: List products and extras for price management
+      security:
+        - clerkSession: []
+      responses:
+        "200":
+          description: Price management rows
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminPricingResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+  /admin/products:
+    post:
+      operationId: createAdminProduct
+      tags: [pricing-admin]
+      summary: Add a menu product
+      security:
+        - clerkSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "201":
+          description: Product added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminProduct"
+        "400":
+          description: Invalid product data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+  /admin/products/{productId}:
+    patch:
+      operationId: updateAdminProduct
+      tags: [pricing-admin]
+      summary: Update product pricing or availability
+      security:
+        - clerkSession: []
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdate"
+      responses:
+        "200":
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminProduct"
+        "400":
+          description: Invalid product data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+        "404":
+          description: Product not found
+  /admin/options:
+    post:
+      operationId: createAdminOption
+      tags: [pricing-admin]
+      summary: Add an extra or product variant
+      security:
+        - clerkSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OptionInput"
+      responses:
+        "201":
+          description: Option added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOption"
+        "400":
+          description: Invalid option data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+  /admin/options/{optionId}:
+    patch:
+      operationId: updateAdminOption
+      tags: [pricing-admin]
+      summary: Edit an extra, its pricing rule, or its sales state
+      security:
+        - clerkSession: []
+      parameters:
+        - name: optionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OptionUpdate"
+      responses:
+        "200":
+          description: Option updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOption"
+        "400":
+          description: Invalid option data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+        "404":
+          description: Option not found
+  /admin/pricing/bulk-preview:
+    post:
+      operationId: previewBulkPricing
+      tags: [pricing-admin]
+      summary: Preview price changes without saving them
+      security:
+        - clerkSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkPriceUpdate"
+      responses:
+        "200":
+          description: Before-and-after price preview
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkPricePreviewResponse"
+        "400":
+          description: Invalid bulk update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+  /admin/pricing/bulk-apply:
+    post:
+      operationId: applyBulkPricing
+      tags: [pricing-admin]
+      summary: Apply a reviewed batch of price changes
+      security:
+        - clerkSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulkPriceUpdate"
+      responses:
+        "200":
+          description: All price changes were saved and audited
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulkPriceApplyResponse"
+        "400":
+          description: Invalid bulk update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+        "409":
+          description: A row changed after the preview; reload before applying
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /admin/price-history:
+    get:
+      operationId: listPriceHistory
+      tags: [pricing-admin]
+      summary: View immutable price change audit entries
+      security:
+        - clerkSession: []
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 100
+      responses:
+        "200":
+          description: Price change audit history
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PriceHistoryResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+  /admin/orders:
+    get:
+      operationId: listAdminOrders
+      tags: [orders-admin]
+      summary: List orders for the order and kitchen boards
+      security:
+        - clerkSession: []
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/OrderStatus"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 100
+      responses:
+        "200":
+          description: Orders with immutable item and option snapshots
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOrdersResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+  /admin/orders/{orderId}/status:
+    patch:
+      operationId: updateAdminOrderStatus
+      tags: [orders-admin]
+      summary: Advance or cancel an order
+      security:
+        - clerkSession: []
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderStatusUpdate"
+      responses:
+        "200":
+          description: Order status updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminOrder"
+        "400":
+          description: Invalid status transition
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Sign-in required
+        "403":
+          description: Administrator access required
+        "404":
+          description: Order not found
+components:
+  securitySchemes:
+    clerkSession:
+      type: http
+      scheme: bearer
+      description: Browser sessions are authenticated by the Clerk session cookie.
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+    PricingModel:
+      type: string
+      enum: [free, per_selection, per_unit, price_delta]
+    OrderStatus:
+      type: string
+      enum: [received, confirmed, preparing, ready, completed, cancelled]
+    PriceField:
+      type: string
+      enum: [base_price, campaign_price, option_price]
+    OrderFulfillment:
+      type: string
+      enum: [pickup, dine_in]
+    MenuOption:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        group: { type: string }
+        priceCents: { type: [integer, "null"], minimum: 0 }
+        pricingModel: { $ref: "#/components/schemas/PricingModel" }
+        maxQuantity: { type: integer, minimum: 1 }
+        isAvailable: { type: boolean }
+      required: [id, name, group, priceCents, pricingModel, maxQuantity, isAvailable]
+    MenuProduct:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        category: { type: string }
+        description: { type: ["string", "null"] }
+        imageUrl: { type: ["string", "null"] }
+        basePriceCents: { type: [integer, "null"], minimum: 0 }
+        campaignPriceCents: { type: [integer, "null"], minimum: 0 }
+        priceCents: { type: [integer, "null"], minimum: 0 }
+        isAvailable: { type: boolean }
+        unavailableReason: { type: ["string", "null"] }
+        options:
+          type: array
+          items: { $ref: "#/components/schemas/MenuOption" }
+      required: [id, name, category, description, imageUrl, basePriceCents, campaignPriceCents, priceCents, isAvailable, unavailableReason, options]
+    MenuCategory:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        products:
+          type: array
+          items: { $ref: "#/components/schemas/MenuProduct" }
+      required: [id, title, products]
+    PublicMenuResponse:
+      type: object
+      properties:
+        currency: { type: string, enum: [TRY] }
+        categories:
+          type: array
+          items: { $ref: "#/components/schemas/MenuCategory" }
+      required: [currency, categories]
+    SelectedOption:
+      type: object
+      properties:
+        optionId: { type: string, format: uuid }
+        quantity: { type: integer, minimum: 1, maximum: 20, default: 1 }
+      required: [optionId, quantity]
+    OrderLineInput:
+      type: object
+      properties:
+        productId: { type: string, format: uuid }
+        quantity: { type: integer, minimum: 1, maximum: 20 }
+        options:
+          type: array
+          items: { $ref: "#/components/schemas/SelectedOption" }
+      required: [productId, quantity, options]
+    OrderSubmission:
+      type: object
+      properties:
+        idempotencyKey: { type: string, format: uuid }
+        customerName: { type: string, minLength: 2, maxLength: 120 }
+        customerPhone: { type: string, minLength: 7, maxLength: 30 }
+        fulfillmentType: { $ref: "#/components/schemas/OrderFulfillment" }
+        notes: { type: ["string", "null"], maxLength: 500 }
+        quotedTotalCents: { type: integer, minimum: 0 }
+        items:
+          type: array
+          minItems: 1
+          maxItems: 30
+          items: { $ref: "#/components/schemas/OrderLineInput" }
+      required: [idempotencyKey, customerName, customerPhone, fulfillmentType, notes, quotedTotalCents, items]
+    OrderOptionSnapshot:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        group: { type: string }
+        quantity: { type: integer }
+        unitPriceCents: { type: integer, minimum: 0 }
+        totalCents: { type: integer, minimum: 0 }
+      required: [id, name, group, quantity, unitPriceCents, totalCents]
+    OrderLineSnapshot:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        productId: { type: string, format: uuid }
+        productName: { type: string }
+        quantity: { type: integer, minimum: 1 }
+        baseUnitPriceCents: { type: integer, minimum: 0 }
+        unitPriceCents: { type: integer, minimum: 0 }
+        lineTotalCents: { type: integer, minimum: 0 }
+        options:
+          type: array
+          items: { $ref: "#/components/schemas/OrderOptionSnapshot" }
+      required: [id, productId, productName, quantity, baseUnitPriceCents, unitPriceCents, lineTotalCents, options]
+    OrderReceipt:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        orderNumber: { type: integer, minimum: 1 }
+        status: { $ref: "#/components/schemas/OrderStatus" }
+        fulfillmentType: { $ref: "#/components/schemas/OrderFulfillment" }
+        currency: { type: string, enum: [TRY] }
+        subtotalCents: { type: integer, minimum: 0 }
+        discountCents: { type: integer, minimum: 0 }
+        totalCents: { type: integer, minimum: 0 }
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/OrderLineSnapshot" }
+        createdAt: { type: string, format: date-time }
+      required: [id, orderNumber, status, fulfillmentType, currency, subtotalCents, discountCents, totalCents, items, createdAt]
+    AdminAccessResponse:
+      type: object
+      properties:
+        canManage: { type: boolean }
+        email: { type: ["string", "null"] }
+      required: [canManage, email]
+    AdminProduct:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        slug: { type: string }
+        name: { type: string }
+        category: { type: string }
+        description: { type: ["string", "null"] }
+        imageUrl: { type: ["string", "null"] }
+        basePriceCents: { type: [integer, "null"], minimum: 0 }
+        campaignPriceCents: { type: [integer, "null"], minimum: 0 }
+        campaignStartsAt: { type: ["string", "null"], format: date-time }
+        campaignEndsAt: { type: ["string", "null"], format: date-time }
+        isActive: { type: boolean }
+        sortOrder: { type: integer }
+        updatedAt: { type: string, format: date-time }
+      required: [id, slug, name, category, description, imageUrl, basePriceCents, campaignPriceCents, campaignStartsAt, campaignEndsAt, isActive, sortOrder, updatedAt]
+    AdminOption:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        productId: { type: string, format: uuid }
+        productName: { type: string }
+        category: { type: string }
+        group: { type: string }
+        name: { type: string }
+        priceCents: { type: [integer, "null"], minimum: 0 }
+        pricingModel: { $ref: "#/components/schemas/PricingModel" }
+        isActive: { type: boolean }
+        maxQuantity: { type: integer, minimum: 1 }
+        sortOrder: { type: integer }
+        updatedAt: { type: string, format: date-time }
+      required: [id, productId, productName, category, group, name, priceCents, pricingModel, isActive, maxQuantity, sortOrder, updatedAt]
+    AdminPricingResponse:
+      type: object
+      properties:
+        products:
+          type: array
+          items: { $ref: "#/components/schemas/AdminProduct" }
+        options:
+          type: array
+          items: { $ref: "#/components/schemas/AdminOption" }
+      required: [products, options]
+    ProductInput:
+      type: object
+      properties:
+        slug: { type: string, minLength: 1, maxLength: 100 }
+        name: { type: string, minLength: 1, maxLength: 160 }
+        category: { type: string, minLength: 1, maxLength: 80 }
+        description: { type: ["string", "null"], maxLength: 500 }
+        imageUrl: { type: ["string", "null"], maxLength: 500 }
+        basePriceCents: { type: [integer, "null"], minimum: 0 }
+        campaignPriceCents: { type: [integer, "null"], minimum: 0 }
+        campaignStartsAt: { type: ["string", "null"], format: date-time }
+        campaignEndsAt: { type: ["string", "null"], format: date-time }
+        isActive: { type: boolean }
+        sortOrder: { type: integer }
+        changeNote: { type: ["string", "null"], maxLength: 300 }
+      required: [slug, name, category, description, imageUrl, basePriceCents, campaignPriceCents, campaignStartsAt, campaignEndsAt, isActive, sortOrder, changeNote]
+    ProductUpdate:
+      type: object
+      properties:
+        slug: { type: string, minLength: 1, maxLength: 100 }
+        name: { type: string, minLength: 1, maxLength: 160 }
+        category: { type: string, minLength: 1, maxLength: 80 }
+        description: { type: ["string", "null"], maxLength: 500 }
+        imageUrl: { type: ["string", "null"], maxLength: 500 }
+        basePriceCents: { type: [integer, "null"], minimum: 0 }
+        campaignPriceCents: { type: [integer, "null"], minimum: 0 }
+        campaignStartsAt: { type: ["string", "null"], format: date-time }
+        campaignEndsAt: { type: ["string", "null"], format: date-time }
+        isActive: { type: boolean }
+        sortOrder: { type: integer }
+        expectedUpdatedAt: { type: string, format: date-time }
+        changeNote: { type: ["string", "null"], maxLength: 300 }
+      required: [slug, name, category, description, imageUrl, basePriceCents, campaignPriceCents, campaignStartsAt, campaignEndsAt, isActive, sortOrder, expectedUpdatedAt, changeNote]
+    OptionInput:
+      type: object
+      properties:
+        productId: { type: string, format: uuid }
+        group: { type: string, minLength: 1, maxLength: 80 }
+        name: { type: string, minLength: 1, maxLength: 160 }
+        priceCents: { type: [integer, "null"], minimum: 0 }
+        pricingModel: { $ref: "#/components/schemas/PricingModel" }
+        isActive: { type: boolean }
+        maxQuantity: { type: integer, minimum: 1, maximum: 20 }
+        sortOrder: { type: integer }
+        changeNote: { type: ["string", "null"], maxLength: 300 }
+      required: [productId, group, name, priceCents, pricingModel, isActive, maxQuantity, sortOrder, changeNote]
+    OptionUpdate:
+      type: object
+      properties:
+        group: { type: string, minLength: 1, maxLength: 80 }
+        name: { type: string, minLength: 1, maxLength: 160 }
+        priceCents: { type: [integer, "null"], minimum: 0 }
+        pricingModel: { $ref: "#/components/schemas/PricingModel" }
+        isActive: { type: boolean }
+        maxQuantity: { type: integer, minimum: 1, maximum: 20 }
+        sortOrder: { type: integer }
+        expectedUpdatedAt: { type: string, format: date-time }
+        changeNote: { type: ["string", "null"], maxLength: 300 }
+      required: [group, name, priceCents, pricingModel, isActive, maxQuantity, sortOrder, expectedUpdatedAt, changeNote]
+    BulkPriceChange:
+      type: object
+      properties:
+        itemType: { type: string, enum: [product, option] }
+        itemId: { type: string, format: uuid }
+        priceCents: { type: [integer, "null"], minimum: 0 }
+        expectedUpdatedAt: { type: string, format: date-time }
+      required: [itemType, itemId, priceCents, expectedUpdatedAt]
+    BulkPriceUpdate:
+      type: object
+      properties:
+        changes:
+          type: array
+          minItems: 1
+          maxItems: 200
+          items: { $ref: "#/components/schemas/BulkPriceChange" }
+        changeNote: { type: ["string", "null"], maxLength: 300 }
+      required: [changes, changeNote]
+    BulkPricePreviewRow:
+      type: object
+      properties:
+        itemType: { type: string, enum: [product, option] }
+        itemId: { type: string, format: uuid }
+        itemName: { type: string }
+        previousPriceCents: { type: [integer, "null"], minimum: 0 }
+        newPriceCents: { type: [integer, "null"], minimum: 0 }
+        expectedUpdatedAt: { type: string, format: date-time }
+      required: [itemType, itemId, itemName, previousPriceCents, newPriceCents, expectedUpdatedAt]
+    BulkPricePreviewResponse:
+      type: object
+      properties:
+        changes:
+          type: array
+          items: { $ref: "#/components/schemas/BulkPricePreviewRow" }
+      required: [changes]
+    BulkPriceApplyResponse:
+      type: object
+      properties:
+        updatedCount: { type: integer, minimum: 0 }
+      required: [updatedCount]
+    PriceHistoryEntry:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        itemType: { type: string, enum: [product, option] }
+        priceField: { $ref: "#/components/schemas/PriceField" }
+        itemId: { type: string, format: uuid }
+        itemName: { type: string }
+        previousPriceCents: { type: [integer, "null"], minimum: 0 }
+        newPriceCents: { type: [integer, "null"], minimum: 0 }
+        changedByEmail: { type: string }
+        changeNote: { type: ["string", "null"] }
+        createdAt: { type: string, format: date-time }
+      required: [id, itemType, priceField, itemId, itemName, previousPriceCents, newPriceCents, changedByEmail, changeNote, createdAt]
+    PriceHistoryResponse:
+      type: object
+      properties:
+        entries:
+          type: array
+          items: { $ref: "#/components/schemas/PriceHistoryEntry" }
+      required: [entries]
+    OrderStatusUpdate:
+      type: object
+      properties:
+        status: { $ref: "#/components/schemas/OrderStatus" }
+      required: [status]
+    AdminOrder:
+      allOf:
+        - $ref: "#/components/schemas/OrderReceipt"
+        - type: object
+          properties:
+            customerName: { type: string }
+            customerPhone: { type: string }
+            notes: { type: ["string", "null"] }
+          required: [customerName, customerPhone, notes]
+    AdminOrdersResponse:
+      type: object
+      properties:
+        orders:
+          type: array
+          items: { $ref: "#/components/schemas/AdminOrder" }
+      required: [orders]
+

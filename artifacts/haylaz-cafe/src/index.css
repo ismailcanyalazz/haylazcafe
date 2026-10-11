@@ -1,0 +1,141 @@
+/*
+ * Google Fonts, index.html içinden preconnect + non-blocking <link> ile
+ * yüklenir. CSS @import kullanılırsa tarayıcı önce bu dosyayı, sonra font
+ * CSS'ini indirmek zorunda kalır ve ilk görüntüleme gecikir (LCP/CLS kaybı).
+ */
+@layer theme, base, clerk, components, utilities;
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import '@clerk/themes/shadcn.css';
+@plugin "@tailwindcss/typography";
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: 34 34% 94%;
+  --foreground: 24 14% 13%;
+  --border: 24 12% 83%;
+  --card: 36 38% 97%;
+  --card-foreground: 24 14% 13%;
+  --popover: 36 38% 97%;
+  --popover-foreground: 24 14% 13%;
+  --primary: 15 70% 52%;
+  --primary-foreground: 40 40% 98%;
+  --secondary: 26 19% 88%;
+  --secondary-foreground: 24 14% 13%;
+  --muted: 30 18% 89%;
+  --muted-foreground: 23 9% 42%;
+  --accent: 15 70% 52%;
+  --accent-foreground: 40 40% 98%;
+  --destructive: 0 66% 48%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 24 12% 83%;
+  --ring: 15 70% 52%;
+  --app-font-sans: 'DM Sans', sans-serif;
+  --app-font-serif: 'Playfair Display', serif;
+  --app-font-mono: ui-monospace, monospace;
+  --radius: 1rem;
+  --button-outline: rgba(41, 31, 25, .12);
+  --badge-outline: rgba(41, 31, 25, .06);
+  --opaque-button-border-intensity: -8;
+  --elevate-1: rgba(41, 31, 25, .035);
+  --elevate-2: rgba(41, 31, 25, .08);
+  --sidebar: 23 15% 17%;
+  --sidebar-foreground: 35 35% 94%;
+  --sidebar-border: 24 12% 83%;
+  --sidebar-primary: 15 70% 52%;
+  --sidebar-primary-foreground: 40 40% 98%;
+  --sidebar-accent: 26 19% 88%;
+  --sidebar-accent-foreground: 24 14% 13%;
+  --sidebar-ring: 15 82% 57%;
+  --chart-1: 15 70% 52%;
+  --chart-2: 39 64% 54%;
+  --chart-3: 156 24% 42%;
+  --chart-4: 11 45% 37%;
+  --chart-5: 27 35% 68%;
+}
+.dark {
+  --background: 24 14% 13%;
+  --foreground: 36 38% 97%;
+  --border: 24 10% 27%;
+  --card: 24 12% 17%;
+  --card-foreground: 36 38% 97%;
+  --popover: 24 12% 17%;
+  --popover-foreground: 36 38% 97%;
+  --primary: 15 70% 56%;
+  --primary-foreground: 40 40% 98%;
+  --secondary: 24 10% 24%;
+  --secondary-foreground: 36 38% 97%;
+  --muted: 24 10% 24%;
+  --muted-foreground: 29 12% 69%;
+  --accent: 15 70% 56%;
+  --accent-foreground: 40 40% 98%;
+  --destructive: 0 62% 45%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 24 10% 27%;
+  --ring: 15 70% 56%;
+  --sidebar: 24 14% 11%;
+  --sidebar-foreground: 36 38% 97%;
+  --sidebar-border: 24 10% 27%;
+  --sidebar-primary: 15 70% 56%;
+  --sidebar-primary-foreground: 40 40% 98%;
+  --sidebar-accent: 24 10% 24%;
+  --sidebar-accent-foreground: 36 38% 97%;
+  --sidebar-ring: 15 82% 60%;
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; scroll-padding-top: 94px; }
+  body { @apply font-sans antialiased; background: #f3eee5; color: #28221e; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+}
+
+:root { --ink: #211e1b; --anthracite: #262320; --anthracite-soft: #302c28; --cream: #f3eee5; --paper: #fbf8f1; --coral: #e76b4b; --coral-dark: #ce5639; --gold: #e9bd73; }
+.font-display { font-family: 'Playfair Display', Georgia, serif; }
+.site-header { backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.hero-image { animation: image-in 1.15s cubic-bezier(.2,.8,.2,1) both; }
+.reveal { animation: rise-in .75s cubic-bezier(.2,.8,.2,1) both; }
+.reveal-delay-1 { animation-delay: .12s; }
+.reveal-delay-2 { animation-delay: .24s; }
+.reveal-delay-3 { animation-delay: .36s; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes image-in { from { opacity: .25; transform: scale(1.035); } to { opacity: 1; transform: scale(1); } }
+.grain::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 70; opacity: .035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E"); }
+.menu-scroll::-webkit-scrollbar { height: 0; }
+.admin-shell { min-height: 100dvh; background: #f3eee5; }
+.admin-sidebar { background: #272421; }
+.field-control { min-height: 44px; width: 100%; border: 1px solid #d8ccbf; border-radius: 12px; background: #fffdf8; padding: 10px 13px; color: #292623; outline: none; transition: border-color .2s, box-shadow .2s; }
+.field-control:focus { border-color: #c45d40; box-shadow: 0 0 0 3px rgba(196,93,64,.12); }
+.admin-table th { text-align: left; color: #86796d; font-size: 9px; text-transform: uppercase; letter-spacing: .15em; font-weight: 700; padding: 13px 15px; }
+.admin-table td { padding: 15px; border-top: 1px solid #ece3d9; vertical-align: middle; }
+.skeleton { background: linear-gradient(90deg,#e9dfd4 25%,#f4eee6 42%,#e9dfd4 65%); background-size: 400% 100%; animation: skeleton-wave 1.35s ease infinite; }
+@keyframes skeleton-wave { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+::selection { background: #e76b4b; color: #fffaf2; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
