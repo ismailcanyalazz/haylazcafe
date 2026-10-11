@@ -5,11 +5,12 @@
   "outputDirectory": "artifacts/haylaz-cafe/dist/public",
   "framework": null,
   "functions": {
-    "api/[...path].mjs": {
+    "api/index.mjs": {
       "maxDuration": 30
     }
   },
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index?__vpath=$1" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
